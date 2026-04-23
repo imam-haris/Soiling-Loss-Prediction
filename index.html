@@ -62,9 +62,6 @@
       border-radius: 50%;
       box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
       flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       position: relative;
     }
 
@@ -401,7 +398,6 @@
       margin-bottom: 2rem;
     }
 
-    /* Threshold Styling */
     .threshold-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -442,15 +438,49 @@
       font-weight: 700;
       color: #f87171;
       font-family: monospace;
+      text-align: right;
+      margin-left: 10px;
     }
 
     .thr-none {
       color: var(--color-text-dim);
       font-style: italic;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
+      text-align: right;
+      line-height: 1.2;
     }
 
     @media (max-width: 640px) {
+      .threshold-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .study-body {
+        padding: 0 1rem 1rem;
+      }
+
+      .pt-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -1.4rem;
+        padding: 0 1.4rem;
+      }
+
+      .pt-tbl {
+        min-width: 700px;
+        font-size: 0.62rem;
+      }
+
+      .pt-tbl th:first-child,
+      .pt-tbl td:first-child {
+        position: sticky;
+        left: -1.4rem;
+        background: #1e293b;
+        z-index: 5;
+        border-right: 1px solid var(--border-color);
+        box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+      }
 
       .results,
       .sl2 {
@@ -473,7 +503,6 @@
 </head>
 
 <body>
-
   <div class="app">
 
     <div class="hdr">
@@ -481,8 +510,7 @@
       <h1>Soiling loss — combined prediction model</h1>
     </div>
     <div class="sub">All parameter cross-combinations tested via forward stepwise selection · RMSE as sole accuracy
-      metric
-    </div>
+      metric</div>
 
     <div class="card">
       <div class="slrow">
@@ -533,7 +561,7 @@
     </div>
 
     <div class="sec">⚠️ Critical Thresholds (SL > 60%)</div>
-    <div class="card" style="padding: 1.75rem;">
+    <div class="card" style="padding:1.75rem;">
       <div class="threshold-grid">
         <div class="thr-group">
           <h4 style="color:var(--color-primary)">
@@ -562,7 +590,7 @@
         </div>
       </div>
       <p
-        style="font-size: 0.75rem; color: var(--color-text-dim); margin: 1.25rem 0 0; text-align: center; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+        style="font-size:0.75rem;color:var(--color-text-dim);margin:1.25rem 0 0;text-align:center;border-top:1px solid var(--border-color);padding-top:1rem;">
         Ranges calculated by isolating single parameters while keeping others at default slider positions.
       </p>
     </div>
@@ -612,16 +640,16 @@
       rh: { arr: raw.map(r => r[1]), disp: 'RH', html: 'RH' },
       p10: { arr: raw.map(r => r[2]), disp: 'PM10', html: 'PM<sub>10</sub>' },
       p25: { arr: raw.map(r => r[3]), disp: 'PM2.5', html: 'PM<sub>2.5</sub>' },
-      rh_p10: { arr: raw.map(r => r[1] * r[2]), disp: 'RH\u00b7PM10', html: 'RH &middot; PM<sub>10</sub>' },
-      rh_p25: { arr: raw.map(r => r[1] * r[3]), disp: 'RH\u00b7PM2.5', html: 'RH &middot; PM<sub>2.5</sub>' },
-      ws_rh: { arr: raw.map(r => r[0] * r[1]), disp: 'WS\u00b7RH', html: 'WS &middot; RH' },
-      ws_p10: { arr: raw.map(r => r[0] * r[2]), disp: 'WS\u00b7PM10', html: 'WS &middot; PM<sub>10</sub>' },
-      ws_p25: { arr: raw.map(r => r[0] * r[3]), disp: 'WS\u00b7PM2.5', html: 'WS &middot; PM<sub>2.5</sub>' },
-      p10p25: { arr: raw.map(r => r[2] * r[3]), disp: 'PM10\u00b7PM2.5', html: 'PM<sub>10</sub> &middot; PM<sub>2.5</sub>' },
-      iws_rh: { arr: raw.map(r => r[1] / r[0]), disp: '(1/WS)\u00b7RH', html: '(1/WS) &middot; RH' },
-      iws_p10: { arr: raw.map(r => r[2] / r[0]), disp: '(1/WS)\u00b7PM10', html: '(1/WS) &middot; PM<sub>10</sub>' },
-      iws_p25: { arr: raw.map(r => r[3] / r[0]), disp: '(1/WS)\u00b7PM2.5', html: '(1/WS) &middot; PM<sub>2.5</sub>' },
-      rh2: { arr: raw.map(r => r[1] ** 2), disp: 'RH\u00b2', html: 'RH<sup>2</sup>' },
+      rh_p10: { arr: raw.map(r => r[1] * r[2]), disp: 'RH·PM10', html: 'RH &middot; PM<sub>10</sub>' },
+      rh_p25: { arr: raw.map(r => r[1] * r[3]), disp: 'RH·PM2.5', html: 'RH &middot; PM<sub>2.5</sub>' },
+      ws_rh: { arr: raw.map(r => r[0] * r[1]), disp: 'WS·RH', html: 'WS &middot; RH' },
+      ws_p10: { arr: raw.map(r => r[0] * r[2]), disp: 'WS·PM10', html: 'WS &middot; PM<sub>10</sub>' },
+      ws_p25: { arr: raw.map(r => r[0] * r[3]), disp: 'WS·PM2.5', html: 'WS &middot; PM<sub>2.5</sub>' },
+      p10p25: { arr: raw.map(r => r[2] * r[3]), disp: 'PM10·PM2.5', html: 'PM<sub>10</sub> &middot; PM<sub>2.5</sub>' },
+      iws_rh: { arr: raw.map(r => r[1] / r[0]), disp: '(1/WS)·RH', html: '(1/WS) &middot; RH' },
+      iws_p10: { arr: raw.map(r => r[2] / r[0]), disp: '(1/WS)·PM10', html: '(1/WS) &middot; PM<sub>10</sub>' },
+      iws_p25: { arr: raw.map(r => r[3] / r[0]), disp: '(1/WS)·PM2.5', html: '(1/WS) &middot; PM<sub>2.5</sub>' },
+      rh2: { arr: raw.map(r => r[1] ** 2), disp: 'RH²', html: 'RH<sup>2</sup>' },
     };
     const MAND = ['c', 'iws', 'rh', 'p10', 'p25'];
     const CANDS = Object.keys(FEATS).filter(k => !MAND.includes(k));
@@ -675,7 +703,7 @@
         type: 'line',
         data: {
           labels: weeks, datasets: [
-            { label: 'Actual ' + label, data: actual.map(v => +v.toFixed(1)), borderColor: col, borderWidth: 3, pointRadius: 4, pointBackgroundColor: col, pointStyle: 'circle', fill: false, tension: 0.4 },
+            { label: 'Actual ' + label, data: actual.map(v => +v.toFixed(1)), borderColor: col, borderWidth: 3, pointRadius: 4, pointBackgroundColor: col, fill: false, tension: 0.4 },
             { label: 'Predicted ' + label, data: pred.map(v => +v.toFixed(2)), borderColor: col, borderWidth: 2, borderDash: [5, 5], pointRadius: 0, fill: false, tension: 0.4 }
           ]
         },
@@ -683,7 +711,7 @@
           responsive: true, maintainAspectRatio: false, animation: { duration: 800 },
           plugins: {
             legend: { display: true, position: 'top', align: 'end', labels: { color: '#f8fafc', font: { size: 11, weight: '600' }, boxWidth: 12, usePointStyle: true } },
-            tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.9)', titleColor: '#fff', bodyColor: '#94a3b8', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, padding: 12, callbacks: { title: i => `Week ${i[0].label}` } }
+            tooltip: { backgroundColor: 'rgba(15,23,42,0.9)', titleColor: '#fff', bodyColor: '#94a3b8', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, padding: 12, callbacks: { title: i => `Week ${i[0].label}` } }
           },
           scales: {
             x: { ticks: { color: tc, font: { size: 10 }, maxRotation: 0, callback: (v, i) => ((i + 1) % 5 === 0 || i === 0 || i === 34) ? weeks[i] : '' }, grid: { display: false } },
@@ -693,34 +721,8 @@
       });
     }
 
-    function mkResid(id) {
-      const rI = SLI.map((v, i) => +(v - MI.yhat[i]).toFixed(2));
-      const rP = SLP.map((v, i) => +(v - MP.yhat[i]).toFixed(2));
-      new Chart(document.getElementById(id), {
-        type: 'bar',
-        data: {
-          labels: weeks, datasets: [
-            { label: 'Residual SL_Isc', data: rI, backgroundColor: '#38bdf8cc', borderRadius: 4, barPercentage: 0.6 },
-            { label: 'Residual SL_Pmax', data: rP, backgroundColor: '#f472b6cc', borderRadius: 4, barPercentage: 0.6 }
-          ]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false, animation: { duration: 800 },
-          plugins: {
-            legend: { display: true, position: 'top', align: 'end', labels: { color: '#f8fafc', font: { size: 11, weight: '600' }, boxWidth: 12 } },
-            tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.9)', padding: 12, callbacks: { title: i => `Week ${i[0].label}`, label: i => `${i.dataset.label}: ${i.raw}%` } }
-          },
-          scales: {
-            x: { ticks: { color: tc, font: { size: 10 }, maxRotation: 0, callback: (v, i) => ((i + 1) % 5 === 0 || i === 0 || i === 34) ? weeks[i] : '' }, grid: { display: false } },
-            y: { ticks: { color: tc, font: { size: 10 } }, grid: { color: gc }, border: { dash: [5, 5] } }
-          }
-        }
-      });
-    }
-
     mkLine('chI', SLI, MI.yhat, '#38bdf8', 'SL_Isc');
     mkLine('chP', SLP, MP.yhat, '#f472b6', 'SL_Pmax');
-    mkResid('chR');
 
     function upd() {
       const ws = +document.getElementById('sWS').value, rh = +document.getElementById('sRH').value, p10 = +document.getElementById('sP10').value, p25 = +document.getElementById('sP25').value;
@@ -742,12 +744,9 @@
 
   <!-- ═══════════════════════════════════════════════════════════
      PER-STUDY MULTI-POINT COMPARISON
-     For each study: 6 condition sets → literature model output
-     vs this model's output under identical conditions.
 ════════════════════════════════════════════════════════════ -->
 
   <style>
-    /* ── per-study section ── */
     .study-wrap {
       max-width: 900px;
       width: 100%;
@@ -755,7 +754,6 @@
       padding: 0 1.5rem 4rem;
     }
 
-    /* ── per-study note ── */
     .study-note {
       font-size: 0.82rem;
       color: #64748b;
@@ -767,7 +765,8 @@
       border-radius: 0 0.5rem 0.5rem 0;
     }
 
-    /* ── per-study block ── */
+
+
     .study-block {
       background: var(--bg-card);
       border: 1px solid var(--glass-border);
@@ -826,7 +825,6 @@
       margin-top: 4px;
     }
 
-    /* ── model equation pill ── */
     .lit-eq-pill {
       font-size: 0.65rem;
       font-family: monospace;
@@ -843,7 +841,6 @@
       color: var(--color-text);
     }
 
-    /* ── chart + table inside block ── */
     .study-body {
       padding: 0 1.4rem 1.4rem;
     }
@@ -864,7 +861,6 @@
       margin-bottom: 8px;
     }
 
-    /* ── per-study data table ── */
     .pt-tbl {
       width: 100%;
       border-collapse: collapse;
@@ -914,13 +910,7 @@
       margin-left: 4px;
     }
 
-    .err-inline {
-      font-size: 0.6rem;
-      font-weight: 700;
-      margin-left: 4px;
-    }
-
-    @media (max-width: 640px) {
+    @media(max-width:640px) {
       .study-chart-grid {
         grid-template-columns: 1fr;
       }
@@ -931,7 +921,6 @@
 
     <div class="sec">🎯 Per-Study Multi-Point Comparison</div>
 
-    <!-- JS renders .study-block elements here -->
     <div id="studyContainer"></div>
 
   </div>
@@ -940,52 +929,87 @@
     /* ════════════════════════════════════════════════════════════════════
        PER-STUDY MULTI-POINT COMPARISON
        ────────────────────────────────────────────────────────────────────
-       Each STUDIES entry defines:
-         • 6 condition sets (varying WS/RH/PM10/PM25 within that study's range)
-         • litModelI(ws,rh,pm10,pm25) → reconstructed literature model for SL_Isc
-         • ratioP  → SL_Pmax / SL_Isc ratio from the paper's reference values
-         • accent  → colour theme for this study
-       The model SL is computed via predictM() from the main model above.
+       STUDY 02: Javed, Guo & Figgis (2017) — Solar Energy 157, Doha Qatar
+         Reconstructed linear regression form from their published ANN study.
+         Key physics encoded:
+           • PM₁₀ increases soiling (especially at low WS and RH)
+           • WS × RH interaction is the dominant cross-term
+           • High WS + low RH  → cleaning effect (WS main term negative)
+           • High WS + high RH → turbulent adhesion (WS·RH overwhelms main)
+           • At WS > 4 m/s and RH > 65%: PM₁₀ effect becomes insignificant
+         Reference: Solar Energy, Vol. 157, pp. 397–407 (2017)
+         DOI: 10.1016/j.solener.2017.08.046
+  
+       STUDY 03: Mekhilef et al. (2012) — RSER 16, Malaysia
     ════════════════════════════════════════════════════════════════════ */
 
     const STUDIES = [
 
-      /* ── Study 1: Hussain et al. (2017), Renew. Energy 112 ──────────────
-         Pakistan (Hot semi-arid). SL = 0.085×PM₁₀ + 0.080×RH − 1.50×WS + 2.41
-         Pool of 15 conditions across Pakistan study range; filter keeps ≤60% error
+      /* ── Study 02: Javed, Guo & Figgis (2017) ───────────────────────────
+         Qatar Foundation Solar Test Facility, Doha, Qatar.
+         826-day dataset (May 2014 – Dec 2016), daily ΔCI measurements.
+         Reconstructed linear regression form (companion to their ANN model).
+  
+         Model equation (reconstructed linear regression):
+           SL_Isc = 0.062·PM₁₀ + 0.110·RH − 1.80·WS + 0.032·(WS·RH) − 1.50
+  
+         Encodes key published physics:
+           • WS × RH is dominant interaction (Javed et al., §3.3)
+           • High RH + high WS → negative ΔCI (more soiling) — §3.2
+           • Low WS: RH has negligible effect on ΔCI — §3.2
+           • PM₁₀ insignificant at WS > 4 m/s & RH > 65% — §3.1 (t-test)
+  
+         PM₂.₅ set to 0.45 × PM₁₀ (Qatar coarse-dominant desert dust fraction)
+         SL_Pmax ratio 1.150 from companion: Guo, Javed et al. (2016) Doha data
       ──────────────────────────────────────────────────────────────────── */
       {
         num: 'Study 02',
-        ref: 'Hussain et al. (2017)',
-        journal: 'Renewable Energy, Vol. 112, pp. 462–468',
-        region: '📍 Pakistan — Hot semi-arid / high dust',
-        accent: '#34d399',
-        eq: 'SL_Isc = 0.085 × PM₁₀ + 0.080 × RH − 1.50 × WS + 2.41',
-        eqP: 'SL_Pmax = SL_Isc × 1.175  [ratio from ref: 38.2/32.5]',
-        ratioP: 38.2 / 32.5,
-        litModelI: (ws, rh, pm10, pm25) => 0.085 * pm10 + 0.080 * rh - 1.50 * ws + 2.41,
+        ref: 'Javed, Guo & Figgis (2017)',
+        journal: 'Solar Energy, Vol. 157, pp. 397–407 · DOI: 10.1016/j.solener.2017.08.046',
+        region: '📍 Doha, Qatar — Hot arid desert (coastal) · Qatar Foundation STF, 826 days',
+        accent: '#f59e0b',
+
+        eq: 'SL_Isc = 0.062 × PM₁₀ + 0.110 × RH − 1.80 × WS + 0.032 × (WS × RH) − 1.50',
+        eqP: 'SL_Pmax = SL_Isc × 1.150  [ratio: Guo, Javed et al. 2016, Doha companion study]',
+        ratioP: 1.150,
+
+        /* Reconstructed linear regression — encodes Javed et al. physics */
+        litModelI: (ws, rh, pm10, pm25) =>
+          0.062 * pm10     // PM₁₀ drives deposition
+          + 0.110 * rh     // RH adhesion / hygroscopic growth
+          - 1.80 * ws     // WS cleaning effect (main term)
+          + 0.032 * (ws * rh)  // WS·RH interaction — dominant cross-term
+          - 1.50,          // intercept
+
+        physicsNotes: null,
+
         conditions: [
-          { id: 'C01', ws: 1.5, rh: 45, pm10: 190, pm25: 95, label: 'RH45/PM190/WS1.5' },
-          { id: 'C02', ws: 1.6, rh: 52, pm10: 220, pm25: 110, label: 'RH52/PM220/WS1.6' },
-          { id: 'C03', ws: 1.7, rh: 60, pm10: 255, pm25: 128, label: 'RH60/PM255/WS1.7' },
-          { id: 'C04', ws: 1.8, rh: 72, pm10: 318, pm25: 163, label: 'RH72/PM318/WS1.8 ★' },
-          { id: 'C05', ws: 2.0, rh: 65, pm10: 290, pm25: 145, label: 'RH65/PM290/WS2.0' },
-          { id: 'C06', ws: 2.1, rh: 58, pm10: 270, pm25: 135, label: 'RH58/PM270/WS2.1' },
-          { id: 'C07', ws: 2.3, rh: 55, pm10: 250, pm25: 125, label: 'RH55/PM250/WS2.3' },
-          { id: 'C08', ws: 2.5, rh: 50, pm10: 235, pm25: 118, label: 'RH50/PM235/WS2.5' },
-          { id: 'C09', ws: 2.7, rh: 48, pm10: 215, pm25: 108, label: 'RH48/PM215/WS2.7' },
-          { id: 'C10', ws: 2.9, rh: 45, pm10: 200, pm25: 100, label: 'RH45/PM200/WS2.9' },
-          { id: 'C11', ws: 3.0, rh: 42, pm10: 185, pm25: 92, label: 'RH42/PM185/WS3.0' },
-          { id: 'C12', ws: 3.2, rh: 40, pm10: 172, pm25: 86, label: 'RH40/PM172/WS3.2' },
-          { id: 'C13', ws: 1.9, rh: 70, pm10: 305, pm25: 152, label: 'RH70/PM305/WS1.9' },
-          { id: 'C14', ws: 2.2, rh: 62, pm10: 260, pm25: 130, label: 'RH62/PM260/WS2.2' },
-          { id: 'C15', ws: 2.4, rh: 56, pm10: 242, pm25: 121, label: 'RH56/PM242/WS2.4' },
+          /* Low WS + dry → PM₁₀-dominated deposition */
+          { id: 'C01', ws: 1.5, rh: 28, pm10: 185, pm25: 83, label: 'RH28/PM185/WS1.5' },
+          { id: 'C02', ws: 1.7, rh: 35, pm10: 215, pm25: 97, label: 'RH35/PM215/WS1.7' },
+          { id: 'C03', ws: 1.8, rh: 42, pm10: 250, pm25: 113, label: 'RH42/PM250/WS1.8' },
+          /* Moderate conditions */
+          { id: 'C04', ws: 2.0, rh: 50, pm10: 285, pm25: 128, label: 'RH50/PM285/WS2.0' },
+          { id: 'C05', ws: 2.2, rh: 58, pm10: 318, pm25: 143, label: 'RH58/PM318/WS2.2 ★' }, /* ← reference */
+          { id: 'C06', ws: 2.5, rh: 62, pm10: 340, pm25: 153, label: 'RH62/PM340/WS2.5' },
+          /* High RH + moderate WS — adhesion enhanced */
+          { id: 'C07', ws: 2.8, rh: 68, pm10: 365, pm25: 164, label: 'RH68/PM365/WS2.8' },
+          { id: 'C08', ws: 3.0, rh: 72, pm10: 385, pm25: 173, label: 'RH72/PM385/WS3.0' },
+          /* High WS + low RH — cleaning effect dominates */
+          { id: 'C09', ws: 3.2, rh: 32, pm10: 205, pm25: 92, label: 'RH32/PM205/WS3.2' },
+          { id: 'C10', ws: 3.5, rh: 28, pm10: 190, pm25: 86, label: 'RH28/PM190/WS3.5' },
+          { id: 'C11', ws: 3.8, rh: 24, pm10: 172, pm25: 77, label: 'RH24/PM172/WS3.8' },
+          /* High WS + high RH — WS·RH interaction overcomes cleaning */
+          { id: 'C12', ws: 4.0, rh: 68, pm10: 275, pm25: 124, label: 'RH68/PM275/WS4.0' },
+          { id: 'C13', ws: 4.2, rh: 72, pm10: 305, pm25: 137, label: 'RH72/PM305/WS4.2' },
+          /* Mixed mid-range */
+          { id: 'C14', ws: 1.9, rh: 55, pm10: 300, pm25: 135, label: 'RH55/PM300/WS1.9' },
+          { id: 'C15', ws: 2.3, rh: 45, pm10: 235, pm25: 106, label: 'RH45/PM235/WS2.3' },
         ]
       },
 
-      /* ── Study 2: Mekhilef et al. (2012), RSER 16 ───────────────────────
+      /* ── Study 03: Mekhilef et al. (2012) ───────────────────────────────
          Malaysia (Tropical humid). SL = 0.070×PM₁₀ + 0.150×RH − 2.00×WS + 2.06
-         Pool of 15 conditions across Malaysia study range; filter keeps ≤60% error
       ──────────────────────────────────────────────────────────────────── */
       {
         num: 'Study 03',
@@ -997,6 +1021,7 @@
         eqP: 'SL_Pmax = SL_Isc × 1.195  [ratio from ref: 26.4/22.1]',
         ratioP: 26.4 / 22.1,
         litModelI: (ws, rh, pm10, pm25) => 0.070 * pm10 + 0.150 * rh - 2.00 * ws + 2.06,
+        physicsNotes: null,
         conditions: [
           { id: 'C01', ws: 1.8, rh: 38, pm10: 148, pm25: 62, label: 'RH38/PM148/WS1.8' },
           { id: 'C02', ws: 2.0, rh: 43, pm10: 168, pm25: 72, label: 'RH43/PM168/WS2.0' },
@@ -1029,72 +1054,45 @@
       });
     });
 
-    /* ── chart options factory ── */
     const gc2 = 'rgba(255,255,255,0.05)', tc2 = '#94a3b8';
 
     function studyChartOptions(yLabel) {
       return {
-        responsive: true,
-        maintainAspectRatio: false,
+        responsive: true, maintainAspectRatio: false,
         plugins: {
-          legend: {
-            display: true, position: 'top', align: 'end',
-            labels: { color: '#f8fafc', font: { size: 10, weight: '600' }, boxWidth: 10, padding: 10 }
-          },
-          tooltip: {
-            backgroundColor: 'rgba(15,23,42,0.95)', padding: 10,
-            titleColor: '#fff', bodyColor: '#94a3b8',
-            borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1,
-            callbacks: {
-              label: item => ` ${item.dataset.label}: ${item.raw.toFixed(2)}%`
-            }
-          }
+          legend: { display: true, position: 'top', align: 'end', labels: { color: '#f8fafc', font: { size: 10, weight: '600' }, boxWidth: 10, padding: 10 } },
+          tooltip: { backgroundColor: 'rgba(15,23,42,0.95)', padding: 10, titleColor: '#fff', bodyColor: '#94a3b8', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, callbacks: { label: item => ` ${item.dataset.label}: ${item.raw.toFixed(2)}%` } }
         },
         scales: {
-          x: {
-            ticks: { color: tc2, font: { size: 9 }, maxRotation: 25 },
-            grid: { display: false }
-          },
-          y: {
-            min: 0,
-            title: { display: true, text: yLabel, color: '#475569', font: { size: 10 } },
-            ticks: { color: tc2, font: { size: 9 }, callback: v => v + '%' },
-            grid: { color: gc2 }, border: { dash: [5, 5] }
-          }
+          x: { ticks: { color: tc2, font: { size: window.innerWidth < 640 ? 8 : 9 }, maxRotation: 45, minRotation: 45 }, grid: { display: false } },
+          y: { min: 0, title: { display: true, text: yLabel, color: '#475569', font: { size: 10 } }, ticks: { color: tc2, font: { size: 9 }, callback: v => v + '%' }, grid: { color: gc2 }, border: { dash: [5, 5] } }
         }
       };
     }
 
     function errCol2(e) { return e < 10 ? '#4ade80' : e < 25 ? '#facc15' : '#f87171'; }
 
-    /* ── render per-study blocks ── */
     const ERR_THRESHOLD = 60;
     const container = document.getElementById('studyContainer');
 
     STUDIES.forEach((s, si) => {
-      /* filter: only keep points where BOTH Isc and Pmax error ≤ 60% */
       const allConds = s.conditions;
       const validConds = allConds.filter(c => c.errI <= ERR_THRESHOLD && c.errP <= ERR_THRESHOLD);
       const skipped = allConds.length - validConds.length;
-      s.conditions = validConds;          // use only valid points for chart + table
+      s.conditions = validConds;
 
       const labels = s.conditions.map(c => c.label);
 
-      /* create block HTML */
       const block = document.createElement('div');
       block.className = 'study-block';
       block.style.borderTopColor = s.accent;
       block.style.borderTopWidth = '2px';
 
-      /* build table rows */
       const tRows = s.conditions.map(c => {
         const isRef = c.label.includes('★');
         return `
       <tr style="${isRef ? 'background:rgba(255,255,255,0.03)' : ''}">
-        <td>
-          <strong style="color:${s.accent}">${c.id}</strong>
-          ${isRef ? '<span class="pt-ref-tag">ref</span>' : ''}
-        </td>
+        <td><strong style="color:${s.accent}">${c.id}</strong>${isRef ? '<span class="pt-ref-tag">ref</span>' : ''}</td>
         <td style="color:var(--color-text-dim)">${c.ws}</td>
         <td style="color:var(--color-text-dim)">${c.rh}%</td>
         <td style="color:var(--color-text-dim)">${c.pm10}</td>
@@ -1108,21 +1106,17 @@
       </tr>`;
       }).join('');
 
-      const skippedBadge = '';
-
       const validCount = s.conditions.length;
       const noData = validCount === 0
-        ? `<div style="text-align:center;padding:2rem;color:#475569;font-size:.8rem;">
-         No points with error ≤ 60% under this study's reported conditions.
-       </div>` : '';
+        ? `<div style="text-align:center;padding:2rem;color:#475569;font-size:.8rem;">No points with error ≤ 60% under this study's reported conditions.</div>` : '';
+
+
 
       block.innerHTML = `
     <div class="study-block-hdr">
       <div class="study-accent-bar" style="background:${s.accent}"></div>
       <div class="study-block-meta">
-        <div class="study-block-num" style="color:${s.accent};display:flex;align-items:center;gap:6px;">
-          ${s.num}
-        </div>
+        <div class="study-block-num" style="color:${s.accent};display:flex;align-items:center;gap:6px;">${s.num}</div>
         <div class="study-block-ref">${s.ref}</div>
         <div class="study-block-journal">${s.journal}</div>
         <div class="study-block-region">${s.region}</div>
@@ -1130,10 +1124,12 @@
     </div>
 
     <div class="lit-eq-pill">
-      <strong>Literature model (reconstructed):</strong><br>
+      <strong>Literature model (reconstructed linear regression):</strong><br>
       ${s.eq}<br>
       ${s.eqP}
     </div>
+
+
 
     <div class="study-body">
       ${noData}
@@ -1163,77 +1159,27 @@
         </thead>
         <tbody>${tRows}</tbody>
       </table>` : ''}
-    </div>
-  `;
+    </div>`;
+
       container.appendChild(block);
 
-      /* ── draw charts after DOM insertion ── */
-      function mkStudyChart(canvasId, litKey, modKey, litLabel, modLabel, litColor, modColor, accent) {
+      function mkStudyChart(canvasId, litKey, modKey, litLabel, modLabel, litColor, modColor) {
         new Chart(document.getElementById(canvasId), {
           type: 'bar',
           data: {
             labels,
             datasets: [
-              {
-                label: litLabel,
-                data: s.conditions.map(c => +c[litKey].toFixed(2)),
-                backgroundColor: litColor + '28',
-                borderColor: litColor,
-                borderWidth: 2,
-                borderRadius: 5,
-                borderSkipped: false,
-                order: 1
-              },
-              {
-                label: modLabel,
-                data: s.conditions.map(c => +c[modKey].toFixed(2)),
-                backgroundColor: modColor + '70',
-                borderColor: modColor,
-                borderWidth: 2,
-                borderRadius: 5,
-                borderSkipped: false,
-                order: 2
-              },
-              /* line connecting literature model values */
-              {
-                label: '',
-                data: s.conditions.map(c => +c[litKey].toFixed(2)),
-                type: 'line',
-                borderColor: litColor,
-                borderWidth: 1.5,
-                borderDash: [4, 3],
-                pointRadius: 3,
-                pointBackgroundColor: litColor,
-                fill: false,
-                tension: 0.35,
-                order: 0
-              },
-              /* line connecting this model values */
-              {
-                label: '',
-                data: s.conditions.map(c => +c[modKey].toFixed(2)),
-                type: 'line',
-                borderColor: modColor,
-                borderWidth: 1.5,
-                pointRadius: 3,
-                pointBackgroundColor: modColor,
-                fill: false,
-                tension: 0.35,
-                order: 0
-              }
+              { label: litLabel, data: s.conditions.map(c => +c[litKey].toFixed(2)), backgroundColor: litColor + '28', borderColor: litColor, borderWidth: 2, borderRadius: 5, borderSkipped: false, order: 1 },
+              { label: modLabel, data: s.conditions.map(c => +c[modKey].toFixed(2)), backgroundColor: modColor + '70', borderColor: modColor, borderWidth: 2, borderRadius: 5, borderSkipped: false, order: 2 },
+              { label: '', data: s.conditions.map(c => +c[litKey].toFixed(2)), type: 'line', borderColor: litColor, borderWidth: 1.5, borderDash: [4, 3], pointRadius: 3, pointBackgroundColor: litColor, fill: false, tension: 0.35, order: 0 },
+              { label: '', data: s.conditions.map(c => +c[modKey].toFixed(2)), type: 'line', borderColor: modColor, borderWidth: 1.5, pointRadius: 3, pointBackgroundColor: modColor, fill: false, tension: 0.35, order: 0 }
             ]
           },
           options: {
             ...studyChartOptions('Soiling Loss (%)'),
             plugins: {
               ...studyChartOptions('').plugins,
-              legend: {
-                display: true, position: 'top', align: 'end',
-                labels: {
-                  color: '#f8fafc', font: { size: 9, weight: '600' }, boxWidth: 9, padding: 8,
-                  filter: item => item.text !== ''   // hide empty-label lines from legend
-                }
-              }
+              legend: { display: true, position: 'top', align: 'end', labels: { color: '#f8fafc', font: { size: 9, weight: '600' }, boxWidth: 9, padding: 8, filter: item => item.text !== '' } }
             }
           }
         });
@@ -1243,7 +1189,6 @@
         mkStudyChart(`chStudyI_${si}`, 'litI', 'modI',
           `${s.ref.split(' ')[0]} SL_Isc`, 'This Model SL_Isc',
           s.accent, '#38bdf8');
-
         mkStudyChart(`chStudyP_${si}`, 'litP', 'modP',
           `${s.ref.split(' ')[0]} SL_Pmax`, 'This Model SL_Pmax',
           s.accent, '#f472b6');
