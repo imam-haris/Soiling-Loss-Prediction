@@ -401,6 +401,55 @@
       margin-bottom: 2rem;
     }
 
+    /* Threshold Styling */
+    .threshold-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .thr-group h4 {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .thr-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      font-size: 0.82rem;
+      transition: background 0.2s;
+    }
+
+    .thr-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .thr-lbl {
+      color: var(--color-text-dim);
+    }
+
+    .thr-val {
+      font-weight: 700;
+      color: #f87171;
+      font-family: monospace;
+    }
+
+    .thr-none {
+      color: var(--color-text-dim);
+      font-style: italic;
+      font-size: 0.8rem;
+    }
+
     @media (max-width: 640px) {
 
       .results,
@@ -481,6 +530,41 @@
           <div class="mfill mfill-p" id="mP" style="width:0%"></div>
         </div>
       </div>
+    </div>
+
+    <div class="sec">⚠️ Critical Thresholds (SL > 60%)</div>
+    <div class="card" style="padding: 1.75rem;">
+      <div class="threshold-grid">
+        <div class="thr-group">
+          <h4 style="color:var(--color-primary)">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--color-primary)"></div>For SL_Isc
+            (Short-Circuit Current)
+          </h4>
+          <div class="thr-item"><span class="thr-lbl">PM<sub>2.5</sub></span> <span class="thr-val">≥ 205 μg/m³</span>
+          </div>
+          <div class="thr-item"><span class="thr-lbl">Wind Speed</span> <span class="thr-val">≥ 4.4 m/s</span></div>
+          <div class="thr-item"><span class="thr-lbl">Rel. Humidity</span> <span class="thr-none">No effect alone</span>
+          </div>
+          <div class="thr-item"><span class="thr-lbl">PM<sub>10</sub></span> <span class="thr-none">Low
+              sensitivity</span></div>
+        </div>
+        <div class="thr-group">
+          <h4 style="color:var(--color-secondary)">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--color-secondary)"></div>For SL_Pmax
+            (Maximum Power)
+          </h4>
+          <div class="thr-item"><span class="thr-lbl">PM<sub>2.5</sub></span> <span class="thr-val">≥ 195 μg/m³</span>
+          </div>
+          <div class="thr-item"><span class="thr-lbl">Rel. Humidity</span> <span class="thr-val">≥ 73%</span></div>
+          <div class="thr-item"><span class="thr-lbl">Wind Speed</span> <span class="thr-val">≥ 4.2 m/s</span></div>
+          <div class="thr-item"><span class="thr-lbl">PM<sub>10</sub></span> <span class="thr-none">Low
+              sensitivity</span></div>
+        </div>
+      </div>
+      <p
+        style="font-size: 0.75rem; color: var(--color-text-dim); margin: 1.25rem 0 0; text-align: center; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+        Ranges calculated by isolating single parameters while keeping others at default slider positions.
+      </p>
     </div>
 
     <div class="sec">Actual vs. predicted — week by week</div>
@@ -846,12 +930,6 @@
   <div class="study-wrap">
 
     <div class="sec">🎯 Per-Study Multi-Point Comparison</div>
-    <p class="study-note">
-      Each literature model is reconstructed from its key reported empirical relationship, calibrated so that at the
-      paper's reference conditions it exactly matches the published SL value.
-      A pool of <strong>15 conditions</strong> per study is generated spanning each study's reported operating range.
-      <em>Note: SL<sub>Pmax</sub> for each literature model uses the Isc→Pmax ratio reported in that paper.</em>
-    </p>
 
     <!-- JS renders .study-block elements here -->
     <div id="studyContainer"></div>
@@ -871,40 +949,8 @@
     ════════════════════════════════════════════════════════════════════ */
 
     const STUDIES = [
-      /* ── Study 1: Conceição et al. (2019), Sol. Energy 178 ──────────────
-         Portugal (Mediterranean). SL = 0.130×(PM₁₀/WS) + 0.035×RH − 9.70
-         Pool of 15 conditions across Portugal study range; filter keeps ≤60% error
-      ──────────────────────────────────────────────────────────────────── */
-      // {
-      //   num: 'Study 01',
-      //   ref: 'Conceição et al. (2019)',
-      //   journal: 'Solar Energy, Vol. 178, pp. 347–357',
-      //   region: '📍 Portugal — Mediterranean semi-arid',
-      //   accent: '#a78bfa',
-      //   eq: 'SL_Isc = 0.130 × (PM₁₀/WS) + 0.035 × RH − 9.70',
-      //   eqP: 'SL_Pmax = SL_Isc × 1.245  [ratio from ref: 17.8/14.3]',
-      //   ratioP: 17.8 / 14.3,
-      //   litModelI: (ws, rh, pm10, pm25) => 0.130 * (pm10 / ws) + 0.035 * rh - 9.70,
-      //   conditions: [
-      //     { id:'C01', ws:1.5, rh:45, pm10:120, pm25:48,  label:'WS1.5/RH45/PM120'  },
-      //     { id:'C02', ws:1.8, rh:50, pm10:145, pm25:58,  label:'WS1.8/RH50/PM145'  },
-      //     { id:'C03', ws:2.0, rh:55, pm10:162, pm25:65,  label:'WS2.0/RH55/PM162'  },
-      //     { id:'C04', ws:2.2, rh:62, pm10:178, pm25:74,  label:'WS2.2/RH62/PM178 ★'},
-      //     { id:'C05', ws:2.5, rh:58, pm10:195, pm25:80,  label:'WS2.5/RH58/PM195'  },
-      //     { id:'C06', ws:2.8, rh:60, pm10:215, pm25:88,  label:'WS2.8/RH60/PM215'  },
-      //     { id:'C07', ws:3.0, rh:55, pm10:230, pm25:95,  label:'WS3.0/RH55/PM230'  },
-      //     { id:'C08', ws:3.2, rh:52, pm10:248, pm25:102, label:'WS3.2/RH52/PM248'  },
-      //     { id:'C09', ws:3.5, rh:48, pm10:265, pm25:108, label:'WS3.5/RH48/PM265'  },
-      //     { id:'C10', ws:3.8, rh:45, pm10:280, pm25:115, label:'WS3.8/RH45/PM280'  },
-      //     { id:'C11', ws:4.0, rh:42, pm10:295, pm25:120, label:'WS4.0/RH42/PM295'  },
-      //     { id:'C12', ws:4.2, rh:40, pm10:310, pm25:126, label:'WS4.2/RH40/PM310'  },
-      //     { id:'C13', ws:4.5, rh:38, pm10:325, pm25:132, label:'WS4.5/RH38/PM325'  },
-      //     { id:'C14', ws:2.2, rh:68, pm10:190, pm25:78,  label:'WS2.2/RH68/PM190'  },
-      //     { id:'C15', ws:2.6, rh:65, pm10:208, pm25:85,  label:'WS2.6/RH65/PM208'  },
-      //   ]
-      // },
 
-      /* ── Study 2: Hussain et al. (2017), Renew. Energy 112 ──────────────
+      /* ── Study 1: Hussain et al. (2017), Renew. Energy 112 ──────────────
          Pakistan (Hot semi-arid). SL = 0.085×PM₁₀ + 0.080×RH − 1.50×WS + 2.41
          Pool of 15 conditions across Pakistan study range; filter keeps ≤60% error
       ──────────────────────────────────────────────────────────────────── */
@@ -937,7 +983,7 @@
         ]
       },
 
-      /* ── Study 3: Mekhilef et al. (2012), RSER 16 ───────────────────────
+      /* ── Study 2: Mekhilef et al. (2012), RSER 16 ───────────────────────
          Malaysia (Tropical humid). SL = 0.070×PM₁₀ + 0.150×RH − 2.00×WS + 2.06
          Pool of 15 conditions across Malaysia study range; filter keeps ≤60% error
       ──────────────────────────────────────────────────────────────────── */
